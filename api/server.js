@@ -8,7 +8,7 @@ const { Pool } = require('pg');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const __dirnameResolved = __dirname;
+const staticRoot = path.join(__dirname, '..');
 const disableDb = process.env.DISABLE_DB === '1';
 
 const upload = multer({
@@ -21,7 +21,7 @@ const upload = multer({
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(__dirnameResolved));
+app.use(express.static(staticRoot));
 
 let pool = null;
 if (disableDb) {
@@ -1256,7 +1256,7 @@ app.post('/api/feedback', async (req, res) => {
 });
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirnameResolved, 'index.html'));
+  res.sendFile(path.join(staticRoot, 'index.html'));
 });
 
 if (require.main === module) {
